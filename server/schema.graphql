@@ -1,9 +1,9 @@
 enum mpaa_rating {
 	G
 	PG
-	PG-13
+	PG13
 	R
-	NC-17
+	NC17
 }
 
 type Film {
@@ -43,9 +43,9 @@ type Rental {
 }
 
 type Query {
-	films(): [Film]!
+	films: [Film]!
 	film(id: Int!): Film
 	rentals(customer_id: Int!): [Rental]!
 	rental(rental_id: Int!): Rental
-	storesFilm(film_id: Int!): [Stores]!
+	storesFilm(film_id: Int!): [Store]!
 }
