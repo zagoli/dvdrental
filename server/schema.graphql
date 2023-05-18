@@ -1,0 +1,51 @@
+enum mpaa_rating {
+	G
+	PG
+	PG-13
+	R
+	NC-17
+}
+
+type Film {
+	film_id: Int!
+	title: String!
+	description: String
+	release_year: Int
+	language: String!
+	rental_duration: Int!
+	rental_rate: Float!
+	length: Int
+	replacement_cost: Float!
+	rating: mpaa_rating
+	special_features: String
+	fulltext: String!
+	categories: [String!]!
+	actors: [String!]!
+}
+
+type Store {
+	store_id: Int!
+	address: String!
+	district: String!
+	city: String!
+	country: String!
+	postal_code: String
+	phone: String!
+}
+
+type Rental {
+	rental_id: Int!
+	film: Film!
+	store: Store!
+	cost: Float!
+	rental_date: String!
+	return_date: String!
+}
+
+type Query {
+	films(): [Film]!
+	film(id: Int!): Film
+	rentals(customer_id: Int!): [Rental]!
+	rental(rental_id: Int!): Rental
+	storesFilm(film_id: Int!): [Stores]!
+}
