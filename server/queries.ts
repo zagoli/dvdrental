@@ -46,6 +46,23 @@ where (i.inventory_id, r.rental_date) in (
     group by i.inventory_id
 ) and r.return_date is not null`
 
+const selectAllRentalsOfCustomer: String = `
+select r.rental_id, f.film_id, i.store_id, 
+       (r.return_date::date - r.rental_date::date) * f.rental_rate as cost,
+       r.rental_date, r.return_date
+from rental r
+join inventory i on i.inventory_id = r.inventory_id
+join film f on i.film_id = f.film_id
+where r.customer_id = $1
+`
+const selectStoreById: String = `
+select s.store_id, a.address, a.district, c.city, c2.country
+from store s
+join address a on a.address_id = s.address_id
+join city c on c.city_id = a.city_id
+join country c2 on c2.country_id = c.country_id
+where s.store_id = $1
+`
 
 export async function allFilms(): Promise<[any]> {
     const result = await pool.query(selectAllFilms);
@@ -70,4 +87,17 @@ export async function actorsOfFilm(film_id: number): Promise<[String]> {
 export async function storeFilmAvailable(film_id: number): Promise<[any]> {
     const result = await pool.query(selectStoresWhereFilmAvailable, [film_id]);
     return result.rows;
+}
+
+export async function allRentalsOfCustomer(customer_id: number): Promise<[any]> {
+    const result = await pool.query(selectAllRentalsOfCustomer, [customer_id]);
+    const film = await filmById(result.film_id)
+    const store = await pool.query(selectStoreById, [result.store_id])
+    delete result.film_id
+    delete result.store_id
+    return {
+        ...result,
+        film: film,
+        store: store
+    };
 }
