@@ -17,7 +17,7 @@ type Film {
 	length: Int
 	replacement_cost: Float!
 	rating: mpaa_rating
-	special_features: String
+	special_features: [String!]!
 	fulltext: String!
 	categories: [String!]!
 	actors: [String!]!
@@ -29,8 +29,6 @@ type Store {
 	district: String!
 	city: String!
 	country: String!
-	postal_code: String
-	phone: String!
 }
 
 type Rental {
@@ -44,7 +42,7 @@ type Rental {
 
 type Query {
 	films: [Film]!
-	film(id: Int!): Film
+	film(film_id: Int!): Film
 	rentals(customer_id: Int!): [Rental]!
 	rental(rental_id: Int!): Rental
 	storesFilm(film_id: Int!): [Store]!

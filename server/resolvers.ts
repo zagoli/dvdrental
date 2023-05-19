@@ -1,5 +1,4 @@
-import './queries'
-import {filmById} from "./queries";
+import * as queries from './queries.js'
 
 export const resolvers = {
     mpaa_rating: {
@@ -9,24 +8,20 @@ export const resolvers = {
         R: 'R',
         NC17: 'NC-17'
     },
-    Store: {
-        city: (parent, args, context, info) => 0,
-        country: (parent, args, context, info) => 0,
-    },
     Rental: {
         film: (parent, args, context, info) => 0,
         store: (parent, args, context, info) => 0,
         cost: (parent, args, context, info) => 0,
     },
     Film: {
-        categories: (parent, args, context, info) => 0,
-        actors: (parent, args, context, info) => 0,
+        categories: (parent) => queries.categoriesOfFilm(parent.film_id),
+        actors: (parent) => queries.actorsOfFilm(parent.film_id),
     },
     Query: {
-        films: () => 0,
-        film: (parent, args, context, info) => filmById(args.id),
+        films: () => queries.allFilms(),
+        film: (parent, args) => queries.filmById(args.film_id),
         rentals: (parent, args, context, info) => 0,
         rental: (parent, args, context, info) => 0,
-        storesFilm: (parent, args, context, info) => 0,
+        storesFilm: (parent, args, context, info) => queries.storeFilmAvailable(args.film_id),
     }
 };
