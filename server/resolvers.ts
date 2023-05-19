@@ -15,8 +15,8 @@ export const resolvers = {
     Query: {
         films: () => queries.allFilms(),
         film: (parent, args) => queries.filmById(args.film_id),
-        rentals: (parent, args, context, info) => queries.allRentalsOfCustomer(args.customer_id),
-        rental: (parent, args, context, info) => 0,
-        storesFilm: (parent, args, context, info) => queries.storeFilmAvailable(args.film_id),
+        rentals: (parent, args) => queries.allRentalsOfCustomer(args.customer_id),
+        rental: (parent, args) => queries.rentalById(args.rental_id),
+        storesFilm: (parent, args) => queries.storeFilmAvailable(args.film_id),
     }
 };

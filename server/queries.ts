@@ -10,7 +10,7 @@ const pool = new Pool({
     port: 5432,
 });
 
-const selectAllFilms:  String = `
+const selectAllFilms: String = `
 select film_id, title, description, release_year, l.name as language, rental_duration,
 rental_rate, length, replacement_cost, rating, special_features, fulltext
 from film
@@ -49,20 +49,28 @@ where (i.inventory_id, r.rental_date) in (
 const selectAllRentalsOfCustomer: String = `
 select r.rental_id, f.film_id, i.store_id, 
        (r.return_date::date - r.rental_date::date) * f.rental_rate as cost,
-       r.rental_date, r.return_date
+       cast(r.rental_date as text), cast(r.return_date as text)
 from rental r
 join inventory i on i.inventory_id = r.inventory_id
 join film f on i.film_id = f.film_id
-where r.customer_id = $1
-`
+where r.customer_id = $1`
+
+const selectRentalById: String = `
+select r.rental_id, f.film_id, i.store_id, 
+       (r.return_date::date - r.rental_date::date) * f.rental_rate as cost,
+       cast(r.rental_date as text), cast(r.return_date as text)
+from rental r
+join inventory i on i.inventory_id = r.inventory_id
+join film f on i.film_id = f.film_id
+where r.rental_id = $1`
+
 const selectStoreById: String = `
 select s.store_id, a.address, a.district, c.city, c2.country
 from store s
 join address a on a.address_id = s.address_id
 join city c on c.city_id = a.city_id
 join country c2 on c2.country_id = c.country_id
-where s.store_id = $1
-`
+where s.store_id = $1`
 
 export async function allFilms(): Promise<[any]> {
     const result = await pool.query(selectAllFilms);
@@ -71,6 +79,11 @@ export async function allFilms(): Promise<[any]> {
 
 export async function filmById(film_id: number): Promise<any> {
     const result = await pool.query(selectFilm, [film_id]);
+    return result.rows[0];
+}
+
+export async function storeById(store_id: number): Promise<any> {
+    const result = await pool.query(selectStoreById, [store_id]);
     return result.rows[0];
 }
 
@@ -91,13 +104,31 @@ export async function storeFilmAvailable(film_id: number): Promise<[any]> {
 
 export async function allRentalsOfCustomer(customer_id: number): Promise<[any]> {
     const result = await pool.query(selectAllRentalsOfCustomer, [customer_id]);
-    const film = await filmById(result.film_id)
-    const store = await pool.query(selectStoreById, [result.store_id])
-    delete result.film_id
-    delete result.store_id
+    return result.rows.map(async function (rental) {
+        const film = await filmById(rental.film_id);
+        const store = await storeById(rental.store_id);
+        delete rental.film_id;
+        delete rental.store_id;
+        return {
+            ...rental,
+            film: film,
+            store: store,
+        };
+    })
+}
+
+export async function rentalById(rental_id: number): Promise<any> {
+    const result = await pool.query(selectRentalById, [rental_id]);
+    const rental = result.rows[0];
+    if(rental == null)
+        return null
+    const film = await filmById(rental.film_id);
+    const store = await storeById(rental.store_id);
+    delete rental.film_id;
+    delete rental.store_id;
     return {
-        ...result,
+        ... rental,
         film: film,
-        store: store
+        store: store,
     };
 }
