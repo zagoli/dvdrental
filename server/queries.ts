@@ -104,31 +104,10 @@ export async function storeFilmAvailable(film_id: number): Promise<[any]> {
 
 export async function allRentalsOfCustomer(customer_id: number): Promise<[any]> {
     const result = await pool.query(selectAllRentalsOfCustomer, [customer_id]);
-    return result.rows.map(async function (rental) {
-        const film = await filmById(rental.film_id);
-        const store = await storeById(rental.store_id);
-        delete rental.film_id;
-        delete rental.store_id;
-        return {
-            ...rental,
-            film: film,
-            store: store,
-        };
-    })
+    return result.rows;
 }
 
 export async function rentalById(rental_id: number): Promise<any> {
     const result = await pool.query(selectRentalById, [rental_id]);
-    const rental = result.rows[0];
-    if(rental == null)
-        return null
-    const film = await filmById(rental.film_id);
-    const store = await storeById(rental.store_id);
-    delete rental.film_id;
-    delete rental.store_id;
-    return {
-        ... rental,
-        film: film,
-        store: store,
-    };
+    return result.rows[0];
 }
