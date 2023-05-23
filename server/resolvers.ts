@@ -8,6 +8,10 @@ export const resolvers = {
         R: 'R',
         NC17: 'NC-17'
     },
+    Rental: {
+        film: (parent) => queries.filmById(parent.film_id),
+        store: (parent) => queries.storeById(parent.store_id),
+    },
     Film: {
         categories: (parent) => queries.categoriesOfFilm(parent.film_id),
         actors: (parent) => queries.actorsOfFilm(parent.film_id),
