@@ -14,6 +14,7 @@ const apolloServer = new ApolloServer({
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 await apolloServer.start();
+
 app.use(
     '/graphql',
     express.json(),
