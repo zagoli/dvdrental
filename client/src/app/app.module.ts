@@ -7,6 +7,8 @@ import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {LoginComponent} from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { GraphQLModule } from './graphql.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [ // qua ci vanno i components (probabilmente lo fa in automatico)
@@ -16,7 +18,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         ReactiveFormsModule,
         BrowserModule,
         AppRoutingModule,
-        NgbModule
+        NgbModule,
+        GraphQLModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent]

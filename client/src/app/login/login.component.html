@@ -1,20 +1,21 @@
 <div class="container">
     <form class="loginForm p-4" [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
         <h1>Login</h1>
+        <ngb-alert *ngIf="auth_error" [type]="alertType" [dismissible]="false">Invalid email or password!</ngb-alert>
         <div class="form-group mb-1">
             <label for="email">Email</label>
             <input formControlName="email" class="form-control input-lg" type="email" id="email" placeholder="email"/>
-            <span *ngIf="loginForm.get('email')?.errors != null && loginForm.get('email')?.touched"
+            <span *ngIf="email!.errors != null && email!.touched"
                     class="text-danger">Please enter a valid email.</span>
         </div>
         <div class="form-group mb-3">
             <label for="password">Password</label>
             <input formControlName="password" class="form-control input-lg" type="password" id="password" placeholder="password"/>
-            <span *ngIf="loginForm.get('password')?.errors != null && loginForm.get('password')?.touched"
+            <span *ngIf="password!.errors != null && password!.touched"
                     class="text-danger">Please enter a password.</span>
         </div>
         <div class="form-group">
-            <input type="submit" name="submit" class="btn btn-success btn-lg" value="Sign Up"/>
+            <input type="submit" name="submit" class="btn btn-primary btn-lg" value="Log In"/>
         </div>
     </form>
 </div>
