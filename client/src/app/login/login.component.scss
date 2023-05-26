@@ -1,0 +1,23 @@
+.loginForm {
+  min-width: 500px;
+  position: absolute;
+  background-color: aliceblue;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px #d3d3d3;
+}
+
+form label {
+  font-size: 1.3em;
+}
+
+.ng-valid.ng-touched:not(form)  {
+  border-left: 5px solid #42A948;
+}
+
+.ng-invalid.ng-touched:not(form)  {
+  border-left: 5px solid #a94442;
+}
+
