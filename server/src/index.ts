@@ -6,7 +6,7 @@ import http from 'http';
 import {schema} from './schema.js';
 import {resolvers} from './resolvers.js'
 
-interface Context {
+export interface Context {
     customer_id?: number;
 }
 

@@ -1,4 +1,5 @@
 import * as queries from './queries.js'
+import {Context} from "./index";
 
 export const resolvers = {
     mpaa_rating: {
@@ -20,8 +21,8 @@ export const resolvers = {
         login: (parent, args) => queries.customer(args.email, args.password),
         films: () => queries.allFilms(),
         film: (parent, args) => queries.filmById(args.film_id),
-        rentals: (parent, args, context) => queries.allRentalsOfCustomer(args.customer_id, context),
-        rental: (parent, args, context) => queries.rentalById(args.rental_id, context),
+        rentals: (parent, args, context: Context) => queries.allRentalsOfCustomer(args.customer_id, context),
+        rental: (parent, args, context: Context) => queries.rentalById(args.rental_id, context),
         storesFilm: (parent, args) => queries.storeFilmAvailable(args.film_id),
     }
 };
