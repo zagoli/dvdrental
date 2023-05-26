@@ -1,4 +1,5 @@
 import pg from 'pg';
+import {Context} from "./index";
 
 const {Pool} = pg;
 
@@ -118,7 +119,7 @@ export async function storeFilmAvailable(film_id: number): Promise<[any]> {
     return result.rows;
 }
 
-export async function allRentalsOfCustomer(customer_id: number, context: any): Promise<[any]> {
+export async function allRentalsOfCustomer(customer_id: number, context: Context): Promise<[any]> {
     if (context.customer_id && context.customer_id == customer_id) {
         const result = await dvdPool.query(selectAllRentalsOfCustomer, [customer_id]);
         return result.rows;
@@ -127,7 +128,7 @@ export async function allRentalsOfCustomer(customer_id: number, context: any): P
     }
 }
 
-export async function rentalById(rental_id: number, context: any): Promise<any> {
+export async function rentalById(rental_id: number, context: Context): Promise<any> {
     const result = await dvdPool.query(selectRentalById, [rental_id]);
     const rental = result.rows[0];
     if (rental && context.customer_id && rental.customer_id == context.customer_id) {
