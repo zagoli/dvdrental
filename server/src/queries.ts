@@ -2,10 +2,18 @@ import pg from 'pg';
 
 const {Pool} = pg;
 
-const pool = new Pool({
+const dvdPool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'dvdrental',
+    password: 'postgres',
+    port: 5432,
+});
+
+const usersPool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'dvdrental_users',
     password: 'postgres',
     port: 5432,
 });
@@ -72,42 +80,60 @@ join city c on c.city_id = a.city_id
 join country c2 on c2.country_id = c.country_id
 where s.store_id = $1`
 
+const selectUser: String = `
+select customer_id, password from users where email = $1
+`
+
+const selectCustomer: String = `
+select customer_id, first_name, last_name from customer where customer_id = $1
+`
+
 export async function allFilms(): Promise<[any]> {
-    const result = await pool.query(selectAllFilms);
+    const result = await dvdPool.query(selectAllFilms);
     return result.rows;
 }
 
 export async function filmById(film_id: number): Promise<any> {
-    const result = await pool.query(selectFilm, [film_id]);
+    const result = await dvdPool.query(selectFilm, [film_id]);
     return result.rows[0];
 }
 
 export async function storeById(store_id: number): Promise<any> {
-    const result = await pool.query(selectStoreById, [store_id]);
+    const result = await dvdPool.query(selectStoreById, [store_id]);
     return result.rows[0];
 }
 
 export async function categoriesOfFilm(film_id: number): Promise<[String]> {
-    const result = await pool.query(selectCategoriesOfFilm, [film_id]);
+    const result = await dvdPool.query(selectCategoriesOfFilm, [film_id]);
     return result.rows.map(i => i.name);
 }
 
 export async function actorsOfFilm(film_id: number): Promise<[String]> {
-    const result = await pool.query(selectActorsOfFilm, [film_id]);
+    const result = await dvdPool.query(selectActorsOfFilm, [film_id]);
     return result.rows.map(i => i.name);
 }
 
 export async function storeFilmAvailable(film_id: number): Promise<[any]> {
-    const result = await pool.query(selectStoresWhereFilmAvailable, [film_id]);
+    const result = await dvdPool.query(selectStoresWhereFilmAvailable, [film_id]);
     return result.rows;
 }
 
 export async function allRentalsOfCustomer(customer_id: number): Promise<[any]> {
-    const result = await pool.query(selectAllRentalsOfCustomer, [customer_id]);
+    const result = await dvdPool.query(selectAllRentalsOfCustomer, [customer_id]);
     return result.rows;
 }
 
 export async function rentalById(rental_id: number): Promise<any> {
-    const result = await pool.query(selectRentalById, [rental_id]);
+    const result = await dvdPool.query(selectRentalById, [rental_id]);
     return result.rows[0];
+}
+
+export async function customer(email: String, password: String): Promise<any> {
+    const user = (await usersPool.query(selectUser, [email])).rows[0];
+    if (user && user.password === password) {
+        const result = await dvdPool.query(selectCustomer, [user.customer_id]);
+        return result.rows[0];
+    } else {
+        return null;
+    }
 }

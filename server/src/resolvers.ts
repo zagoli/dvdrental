@@ -17,6 +17,7 @@ export const resolvers = {
         actors: (parent) => queries.actorsOfFilm(parent.film_id),
     },
     Query: {
+        login: (parent, args) => queries.customer(args.email, args.password),
         films: () => queries.allFilms(),
         film: (parent, args) => queries.filmById(args.film_id),
         rentals: (parent, args) => queries.allRentalsOfCustomer(args.customer_id),

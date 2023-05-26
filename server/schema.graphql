@@ -40,7 +40,14 @@ type Rental {
 	return_date: String!
 }
 
+type Customer {
+    customer_id: Int!
+    first_name: String!
+    last_name: String!
+}
+
 type Query {
+    login(email: String!, password: String!): Customer
 	films: [Film]!
 	film(film_id: Int!): Film
 	rentals(customer_id: Int!): [Rental]!
