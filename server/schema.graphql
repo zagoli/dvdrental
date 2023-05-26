@@ -33,6 +33,7 @@ type Store {
 
 type Rental {
 	rental_id: Int!
+	customer_id: Int!
 	film: Film!
 	store: Store!
 	cost: Float!
@@ -50,7 +51,7 @@ type Query {
     login(email: String!, password: String!): Customer
 	films: [Film]!
 	film(film_id: Int!): Film
-	rentals(customer_id: Int!): [Rental]!
+	rentals(customer_id: Int!): [Rental]
 	rental(rental_id: Int!): Rental
 	storesFilm(film_id: Int!): [Store]!
 }

@@ -55,7 +55,7 @@ where (i.inventory_id, r.rental_date) in (
 ) and r.return_date is not null`
 
 const selectAllRentalsOfCustomer: String = `
-select r.rental_id, f.film_id, i.store_id, 
+select r.rental_id, r.customer_id, f.film_id, i.store_id, 
        (r.return_date::date - r.rental_date::date) * f.rental_rate as cost,
        cast(r.rental_date as text), cast(r.return_date as text)
 from rental r
@@ -64,7 +64,7 @@ join film f on i.film_id = f.film_id
 where r.customer_id = $1`
 
 const selectRentalById: String = `
-select r.rental_id, f.film_id, i.store_id, 
+select r.rental_id, r.customer_id, f.film_id, i.store_id, 
        (r.return_date::date - r.rental_date::date) * f.rental_rate as cost,
        cast(r.rental_date as text), cast(r.return_date as text)
 from rental r
@@ -118,14 +118,24 @@ export async function storeFilmAvailable(film_id: number): Promise<[any]> {
     return result.rows;
 }
 
-export async function allRentalsOfCustomer(customer_id: number): Promise<[any]> {
-    const result = await dvdPool.query(selectAllRentalsOfCustomer, [customer_id]);
-    return result.rows;
+export async function allRentalsOfCustomer(customer_id: number, context: any): Promise<[any]> {
+    if (context.customer_id && context.customer_id == customer_id) {
+        const result = await dvdPool.query(selectAllRentalsOfCustomer, [customer_id]);
+        return result.rows;
+    } else {
+        return null;
+    }
 }
 
-export async function rentalById(rental_id: number): Promise<any> {
+export async function rentalById(rental_id: number, context: any): Promise<any> {
     const result = await dvdPool.query(selectRentalById, [rental_id]);
-    return result.rows[0];
+    const rental = result.rows[0];
+    if (rental && context.customer_id && rental.customer_id == context.customer_id) {
+        return rental;
+    } else {
+        return null;
+    }
+
 }
 
 export async function customer(email: String, password: String): Promise<any> {
