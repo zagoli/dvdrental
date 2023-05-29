@@ -10,19 +10,21 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
+import {DataTablesModule} from "angular-datatables";
 
 @NgModule({
     declarations: [ // qua ci vanno i components (probabilmente lo fa in automatico)
         AppComponent, LoginComponent, DashboardComponent, NavbarComponent
     ],
-    imports: [
-        ReactiveFormsModule,
-        BrowserModule,
-        AppRoutingModule,
-        NgbModule,
-        GraphQLModule,
-        HttpClientModule
-    ],
+	imports: [
+		ReactiveFormsModule,
+		BrowserModule,
+		AppRoutingModule,
+		NgbModule,
+		GraphQLModule,
+		HttpClientModule,
+		DataTablesModule
+	],
     providers: [],
     bootstrap: [AppComponent]
 })

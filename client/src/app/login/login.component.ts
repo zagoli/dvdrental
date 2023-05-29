@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Apollo, gql} from "apollo-angular";
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import {Router} from "@angular/router";
 
 @Component({
@@ -36,9 +35,9 @@ export class LoginComponent {
             return
         }
 
-        this.apollo.watchQuery({
+        this.apollo.query({
             query: gql`
-                query Rentals($email: String!, $password: String!) {
+                query Login($email: String!, $password: String!) {
                     login(email: $email, password: $password) {
                         customer_id
                         first_name
@@ -51,7 +50,7 @@ export class LoginComponent {
                 password: this.password!.value
             },
         })
-        .valueChanges.subscribe((result: any) => {
+        .subscribe((result: any) => {
             const userData = result.data.login;
             if(!userData){
                 this.loginForm.reset();
