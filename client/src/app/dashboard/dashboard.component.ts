@@ -14,7 +14,6 @@ export class DashboardComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		// @ts-ignore
 		this.dtOptions = {
 			ajax: (dataTablesParameters: any, callback) => {
 				this.apollo.query({
@@ -35,31 +34,16 @@ export class DashboardComponent implements OnInit {
 				}))
 			},
 			columns: [
-				{
-					title: 'title',
-					data: 'title'
-				},
-				{
-					title: 'year',
-					data: 'release_year'
-				},
-				{
-					title: 'ratting',
-					data: 'rating'
-				},
-				{
-					title: 'categories',
-					data: 'categories'
-				},
-				{
-					title: 'language',
-					data: 'language'
-				},
-				{
-					title: 'cost',
-					data: 'rental_rate'
-				},
-			]
+				{title: 'Title', data: 'title'},
+				{title: 'Year', data: 'release_year', searchable: false},
+				{title: 'Rating', data: 'rating', searchable: false},
+				{title: 'Categories', data: 'categories', searchable: false},
+				{title: 'Language', data: 'language', searchable: false},
+				{title: 'Rental Cost', data: 'rental_rate', searchable: false},
+			],
+			responsive: true,
+			//@ts-ignore
+			keys: true
 		}
 	}
 
