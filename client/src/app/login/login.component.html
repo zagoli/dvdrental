@@ -1,21 +1,33 @@
-<div class="container">
-    <form class="loginForm p-4" [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
-        <h1>Login</h1>
-        <ngb-alert *ngIf="auth_error" [type]="alertType" [dismissible]="false">Invalid email or password!</ngb-alert>
-        <div class="form-group mb-1">
-            <label for="email">Email</label>
-            <input formControlName="email" class="form-control input-lg" type="email" id="email" placeholder="email"/>
-            <span *ngIf="email!.errors != null && email!.touched"
-                    class="text-danger">Please enter a valid email.</span>
+<div class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card">
+                    <form class="p-4" [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+                        <h3>Login</h3>
+                        <ngb-alert *ngIf="auth_error" [type]="alertType" [dismissible]="false">Invalid email or
+                            password!
+                        </ngb-alert>
+                        <div class="form-group mb-1">
+                            <label for="email">Email</label>
+                            <input formControlName="email" class="form-control" type="email" id="email"
+                                   placeholder="email"/>
+                            <span *ngIf="email!.errors != null && email!.touched"
+                                  class="text-danger">Please enter a valid email.</span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password">Password</label>
+                            <input formControlName="password" class="form-control" type="password" id="password"
+                                   placeholder="password"/>
+                            <span *ngIf="password!.errors != null && password!.touched"
+                                  class="text-danger">Please enter a password.</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="submit" class="btn btn-primary" value="Log In"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="form-group mb-3">
-            <label for="password">Password</label>
-            <input formControlName="password" class="form-control input-lg" type="password" id="password" placeholder="password"/>
-            <span *ngIf="password!.errors != null && password!.touched"
-                    class="text-danger">Please enter a password.</span>
-        </div>
-        <div class="form-group">
-            <input type="submit" name="submit" class="btn btn-primary btn-lg" value="Log In"/>
-        </div>
-    </form>
+    </div>
 </div>

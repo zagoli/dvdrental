@@ -9,10 +9,11 @@ import {LoginComponent} from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
     declarations: [ // qua ci vanno i components (probabilmente lo fa in automatico)
-        AppComponent, LoginComponent, DashboardComponent
+        AppComponent, LoginComponent, DashboardComponent, NavbarComponent
     ],
     imports: [
         ReactiveFormsModule,
