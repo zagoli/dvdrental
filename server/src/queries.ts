@@ -88,7 +88,7 @@ const selectCustomer: String = `
 select customer_id, first_name, last_name from customer where customer_id = $1`
 
 const selectAllCategories: String = `
-select name from categories`
+select name from category`
 
 
 export async function allFilms(): Promise<[any]> {
@@ -151,8 +151,12 @@ export async function customer(email: String, password: String): Promise<any> {
     }
 }
 
-export async function categories() {
-    const result = await usersPool.query(selectAllCategories);
-    return result.rows;
+export async function categories(): Promise<any> {
+    const categories = await dvdPool.query(selectAllCategories);
+    const result: String[] = [];
+    categories.rows.forEach( (c) => {
+        result.push(c.name)}
+    );
+    return result;
 
 }
