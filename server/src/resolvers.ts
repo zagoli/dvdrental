@@ -24,5 +24,6 @@ export const resolvers = {
         rentals: (parent, args, context: Context) => queries.allRentalsOfCustomer(args.customer_id, context),
         rental: (parent, args, context: Context) => queries.rentalById(args.rental_id, context),
         storesFilm: (parent, args) => queries.storeFilmAvailable(args.film_id),
+        categories: () => queries.categories(),
     }
 };

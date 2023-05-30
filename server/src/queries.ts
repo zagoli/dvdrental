@@ -82,12 +82,14 @@ join country c2 on c2.country_id = c.country_id
 where s.store_id = $1`
 
 const selectUser: String = `
-select customer_id, password from users where email = $1
-`
+select customer_id, password from users where email = $1`
 
 const selectCustomer: String = `
-select customer_id, first_name, last_name from customer where customer_id = $1
-`
+select customer_id, first_name, last_name from customer where customer_id = $1`
+
+const selectAllCategories: String = `
+select name from categories`
+
 
 export async function allFilms(): Promise<[any]> {
     const result = await dvdPool.query(selectAllFilms);
@@ -147,4 +149,10 @@ export async function customer(email: String, password: String): Promise<any> {
     } else {
         return null;
     }
+}
+
+export async function categories() {
+    const result = await usersPool.query(selectAllCategories);
+    return result.rows;
+
 }
