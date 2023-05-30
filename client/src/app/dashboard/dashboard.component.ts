@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Apollo, gql} from "apollo-angular";
+import {DataTableDirective} from "angular-datatables";
 
 @Component({
 	selector: 'app-dashboard',
@@ -8,12 +9,27 @@ import {Apollo, gql} from "apollo-angular";
 })
 export class DashboardComponent implements OnInit {
 
+	@ViewChild(DataTableDirective) // @ts-ignore
+	datatableElement: DataTableDirective;
 	dtOptions: DataTables.Settings = {}
+	categories: String[] = [];
+	disableFiltering = true;
 
 	constructor(private apollo: Apollo) {
 	}
 
 	ngOnInit() {
+
+		this.apollo.query({
+			query: gql`
+		                query Categories {
+		                    categories
+		                }
+		            `,
+		}).subscribe((results: any) => {
+			this.categories = results.data.categories;
+		})
+
 		this.dtOptions = {
 			ajax: (dataTablesParameters: any, callback) => {
 				this.apollo.query({
@@ -29,9 +45,12 @@ export class DashboardComponent implements OnInit {
 		                    }
 		                }
 		            `,
-				}).subscribe((result: any) => callback({
-					data: result.data.films,
-				}))
+				}).subscribe((result: any) => {
+					this.disableFiltering = false;
+					callback({
+						data: result.data.films,
+					})
+				})
 			},
 			columns: [
 				{title: 'Title', data: 'title'},
@@ -47,4 +66,12 @@ export class DashboardComponent implements OnInit {
 		}
 	}
 
+	filterTable(event: Event) {
+		let selectedCategory = (event.target as HTMLSelectElement).value;
+		this.datatableElement.dtInstance.then( (dtInstance: DataTables.Api) => {
+			dtInstance.column(4)
+				.search(selectedCategory == "All Categories" ? "" : selectedCategory)
+				.draw();
+		})
+	}
 }
