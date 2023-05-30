@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, Renderer2, HostListener} from '@angular/core';
 import {Apollo, gql} from "apollo-angular";
 import {DataTableDirective} from "angular-datatables";
 
@@ -7,7 +7,7 @@ import {DataTableDirective} from "angular-datatables";
 	templateUrl: './dashboard.component.html',
 	styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit{
 
 	@ViewChild(DataTableDirective) // @ts-ignore
 	datatableElement: DataTableDirective;
@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
 	categories: String[] = [];
 	disableFiltering = true;
 
-	constructor(private apollo: Apollo) {
+	constructor(private renderer: Renderer2, private apollo: Apollo) {
 	}
 
 	ngOnInit() {
@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
 					query: gql`
 		                query Films {
 		                    films {
+								film_id
 		                        title
 		                        release_year
 		                        rating
@@ -59,18 +60,30 @@ export class DashboardComponent implements OnInit {
 				{title: 'Categories', data: 'categories', searchable: false},
 				{title: 'Language', data: 'language', searchable: false},
 				{title: 'Rental Cost', data: 'rental_rate', searchable: false},
+				{	title: 'Rent',
+					data: 'film_id',
+					render: (data) => {
+					return `<button type="button" class="btn btn-outline-primary" data-film_id="${data}">RENT</button>`;}
+
+				},
 			],
 			responsive: true,
-			//@ts-ignore
-			keys: true
+		}
+	}
+	@HostListener('click', ['$event'])
+	openFilm(event: Event) {
+		let eventButton = event.target as HTMLButtonElement;
+		let film_id = eventButton.getAttribute('data-film_id');
+		if (film_id) {
+			console.log(film_id)
 		}
 	}
 
 	filterTable(event: Event) {
 		let selectedCategory = (event.target as HTMLSelectElement).value;
 		this.datatableElement.dtInstance.then( (dtInstance: DataTables.Api) => {
-			dtInstance.column(4)
-				.search(selectedCategory == "All Categories" ? "" : selectedCategory)
+			dtInstance.column(3)
+				.search(selectedCategory == 'All Categories' ? '' : selectedCategory)
 				.draw();
 		})
 	}
