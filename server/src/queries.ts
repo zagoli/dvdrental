@@ -25,6 +25,16 @@ rental_rate, length, replacement_cost, rating, special_features, fulltext
 from film
 join language l on film.language_id = l.language_id`
 
+const selectAllFilmsWithCategory: String = `
+select f.film_id, f.title, f.description, f.release_year, l.name as language, f.rental_duration,
+f.rental_rate, f.length, f.replacement_cost, f.rating, f.special_features, f.fulltext
+from film f
+join language l on f.language_id = l.language_id
+join film_category fc on fc.film_id = f.film_id
+join category c on fc.category_id = c.category_id
+where c.name like $1
+order by f.title`
+
 const selectFilm: String = selectAllFilms + ' where film_id = $1'
 
 const selectCategoriesOfFilm: String = `
@@ -93,6 +103,11 @@ select name from category`
 
 export async function allFilms(): Promise<[any]> {
     const result = await dvdPool.query(selectAllFilms);
+    return result.rows;
+}
+
+export async function allFilmsWithCategory(category: any): Promise<[any]>  {
+    const result = await dvdPool.query(selectAllFilmsWithCategory, [category]);
     return result.rows;
 }
 

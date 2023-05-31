@@ -50,6 +50,7 @@ type Customer {
 type Query {
     login(email: String!, password: String!): Customer
 	films: [Film]!
+	filmsWithCategory(category: String!) : [Film]!
 	film(film_id: Int!): Film
 	rentals(customer_id: Int!): [Rental]
 	rental(rental_id: Int!): Rental

@@ -20,6 +20,7 @@ export const resolvers = {
     Query: {
         login: (parent, args) => queries.customer(args.email, args.password),
         films: () => queries.allFilms(),
+        filmsWithCategory: (parent, args) => queries.allFilmsWithCategory(args.category),
         film: (parent, args) => queries.filmById(args.film_id),
         rentals: (parent, args, context: Context) => queries.allRentalsOfCustomer(args.customer_id, context),
         rental: (parent, args, context: Context) => queries.rentalById(args.rental_id, context),
