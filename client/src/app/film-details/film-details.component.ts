@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Apollo, gql} from "apollo-angular";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
 	selector: 'app-film-details',
@@ -24,7 +25,7 @@ export class FilmDetailsComponent implements OnInit {
 	categories: String[] = [];
 	actors: String[] = [];
 
-	constructor(private apollo: Apollo) {
+	constructor(private apollo: Apollo, public activeModal: NgbActiveModal) {
 	}
 
 	ngOnInit(): void {

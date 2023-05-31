@@ -1,7 +1,10 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}}
+        <ng-template [ngIf]="release_year">- {{release_year}}</ng-template></h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+
 <div class="container">
-    <h2>{{title}}
-        <ng-template [ngIf]="release_year">- {{release_year}}</ng-template>
-    </h2>
 
     <div class="row justify-content-start">
         <div class="col">
@@ -46,4 +49,8 @@
             <p><b>Replacement cost:</b> {{replacement_cost}}</p>
         </div>
     </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
 </div>
