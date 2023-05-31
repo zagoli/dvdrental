@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, Renderer2, HostListener} from '@angular/core';
+import {Component, OnInit, ViewChild, HostListener} from '@angular/core';
 import {Apollo, gql} from "apollo-angular";
 import {DataTableDirective} from "angular-datatables";
 
@@ -10,12 +10,12 @@ import {DataTableDirective} from "angular-datatables";
 export class DashboardComponent implements OnInit{
 
 	@ViewChild(DataTableDirective) // @ts-ignore
-	datatableElement: DataTableDirective;
+	private datatableElement: DataTableDirective;
 	dtOptions: DataTables.Settings = {}
 	categories: String[] = [];
 	disableFiltering = true;
 
-	constructor(private renderer: Renderer2, private apollo: Apollo) {
+	constructor(private apollo: Apollo) {
 	}
 
 	ngOnInit() {

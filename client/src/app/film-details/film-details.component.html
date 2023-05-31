@@ -1,0 +1,49 @@
+<div class="container">
+    <h2>{{title}}
+        <ng-template [ngIf]="release_year">- {{release_year}}</ng-template>
+    </h2>
+
+    <div class="row justify-content-start">
+        <div class="col">
+            <p><b>Language: </b>{{language}}</p>
+        </div>
+        <div *ngIf="length" class="col">
+            <p><b>Length: </b>{{length}} minutes</p>
+        </div>
+        <div *ngIf="rating" class="col">
+            <p><b>Rating: </b>{{rating}}</p>
+        </div>
+        <div class="col">
+            <p><b>Category: </b>{{categories.join(', ')}}</p>
+        </div>
+    </div>
+
+    <h5>Actors</h5>
+    <p>{{actors.join(', ')}}</p>
+
+    <div *ngIf="description">
+        <h5>Description</h5>
+        <p>{{description}}</p>
+    </div>
+
+    <h5>Special Features</h5>
+    <ul>
+        <li *ngFor="let feature of special_features">{{feature}}</li>
+    </ul>
+
+    <h5>Fulltext</h5>
+    <p>{{fulltext}}</p>
+
+    <h5>Rental Information</h5>
+    <div class="row">
+        <div class="col">
+            <p><b>Rental rate:</b> {{rental_rate}}</p>
+        </div>
+        <div class="col">
+            <p><b>Maximum rental duration:</b> {{rental_duration}}</p>
+        </div>
+        <div class="col">
+            <p><b>Replacement cost:</b> {{replacement_cost}}</p>
+        </div>
+    </div>
+</div>

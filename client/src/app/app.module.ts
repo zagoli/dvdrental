@@ -11,10 +11,11 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import {DataTablesModule} from "angular-datatables";
+import { FilmDetailsComponent } from './film-details/film-details.component';
 
 @NgModule({
     declarations: [ // qua ci vanno i components (probabilmente lo fa in automatico)
-        AppComponent, LoginComponent, DashboardComponent, NavbarComponent
+        AppComponent, LoginComponent, DashboardComponent, NavbarComponent, FilmDetailsComponent
     ],
 	imports: [
 		ReactiveFormsModule,
