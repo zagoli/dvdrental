@@ -12,14 +12,14 @@
                             <label for="email">Email</label>
                             <input formControlName="email" class="form-control" type="email" id="email"
                                    placeholder="email"/>
-                            <span *ngIf="email!.errors != null && email!.touched"
+                            <span *ngIf="email!.errors && email!.touched"
                                   class="text-danger">Please enter a valid email.</span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="password">Password</label>
                             <input formControlName="password" class="form-control" type="password" id="password"
                                    placeholder="password"/>
-                            <span *ngIf="password!.errors != null && password!.touched"
+                            <span *ngIf="password!.errors && password!.touched"
                                   class="text-danger">Please enter a password.</span>
                         </div>
                         <div class="form-group">

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Apollo, gql} from "apollo-angular";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 
 @Component({
 	selector: 'app-film-details',
@@ -24,6 +25,15 @@ export class FilmDetailsComponent implements OnInit {
 	fulltext: String = "";
 	categories: String[] = [];
 	actors: String[] = [];
+
+	// form variables
+	rentForm = new FormGroup({
+		rentalDate: new FormControl('', [Validators.required, this.dateRangeValidator(2)]),
+		store: new FormControl()
+	});
+	stores: String[] = []
+	loggedIn: boolean = !!sessionStorage.getItem('customer_id');
+	filmRented: boolean = false;
 
 	constructor(private apollo: Apollo, public activeModal: NgbActiveModal) {
 	}
@@ -69,6 +79,47 @@ export class FilmDetailsComponent implements OnInit {
 			this.categories = film.categories;
 			this.actors = film.actors;
 		})
+
+		// stores where the film is available to rent
+		this.apollo.query({
+			query: gql`
+			query Film($filmId: Int!) {
+				  storesFilm(film_id: $filmId) {
+					    address
+					    district
+					    city
+					    country
+				  }
+			}
+			`,
+			variables: {
+				filmId: this.film_id
+			}
+		}).subscribe((results: any) => {
+			this.stores = results.data.storesFilm.map((s: any) =>
+				`${s.address}, ${s.district}, ${s.city}, ${s.country}`
+			)
+		})
+	}
+
+	dateRangeValidator(days: number): ValidatorFn {
+		return (control: AbstractControl): ValidationErrors | null => {
+			const selectedDate: Date = new Date(new Date(control.value).toDateString());
+			const today: Date = new Date(new Date().toDateString());
+			const futureDate: Date = new Date(new Date().toDateString());
+			futureDate.setDate(futureDate.getDate() + days);
+			if (selectedDate && (selectedDate < today || selectedDate > futureDate)) {
+				return { dateOutOfRange: true };
+			}
+			return null;
+		};
+	}
+
+	onFormSubmit(): void {
+		this.rentForm.markAllAsTouched()
+		if (this.rentForm.valid){
+			this.filmRented = true;
+		}
 	}
 
 }
