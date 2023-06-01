@@ -15,7 +15,6 @@ export class LoginComponent {
         password: new FormControl('', Validators.required)
     });
     auth_error: boolean = false;
-    alertType = "danger";
 
     get email() {
         return this.loginForm.get('email');

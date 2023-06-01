@@ -5,7 +5,7 @@
                 <div class="card">
                     <form class="p-4" [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
                         <h3>Login</h3>
-                        <ngb-alert *ngIf="auth_error" [type]="alertType" [dismissible]="false">Invalid email or
+                        <ngb-alert *ngIf="auth_error" [dismissible]="false" type="danger">Invalid email or
                             password!
                         </ngb-alert>
                         <div class="form-group mb-1">
