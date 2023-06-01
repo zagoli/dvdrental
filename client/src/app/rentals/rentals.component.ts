@@ -88,7 +88,8 @@ export class RentalsComponent implements OnInit {
 		let eventButton = event.target as HTMLElement;
 		let rental_id = eventButton.getAttribute('data-rental_id');
 		if (rental_id) {
-			const modalRef = this.modalService.open(RentalDetailsComponent);
+			const modalRef = this.modalService.open(
+				RentalDetailsComponent, {scrollable: true});
 			modalRef.componentInstance.rental_id = Number(rental_id);
 		}
 	}

@@ -1,9 +1,8 @@
-import {Component, OnInit, ViewChild, HostListener} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Apollo, gql} from "apollo-angular";
 import {DataTableDirective} from "angular-datatables";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FilmDetailsComponent} from "../film-details/film-details.component";
-import {flatMap} from "rxjs";
 
 @Component({
 	selector: 'app-dashboard',
@@ -80,7 +79,7 @@ export class DashboardComponent implements OnInit {
 				},
 				{title: 'Year', data: 'release_year', searchable: false},
 				{title: 'Rating', data: 'rating', searchable: false},
-				{title: 'Categories', data: 'categories', searchable: false},
+				{title: 'Categories', data: 'categories.0', searchable: false},
 				{title: 'Language', data: 'language', searchable: false},
 				{title: 'Rental Cost', data: 'rental_rate', searchable: false},
 				{
@@ -102,7 +101,9 @@ export class DashboardComponent implements OnInit {
 		let eventButton = event.target as HTMLElement;
 		let film_id = eventButton.getAttribute('data-film_id');
 		if (film_id) {
-			const modalRef = this.modalService.open(FilmDetailsComponent);
+			const modalRef = this.modalService.open(
+				FilmDetailsComponent, { scrollable: true, size: 'lg' }
+			);
 			modalRef.componentInstance.film_id = Number(film_id);
 			event.preventDefault();
 		}

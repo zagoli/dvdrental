@@ -3,7 +3,7 @@
     <button (click)="activeModal.dismiss('Cross click')" aria-label="Close" class="btn-close" type="button"></button>
 </div>
 
-<div class="container">
+<div class="modal-body">
     <ng-template [ngIf]="canViewRental">
         <h5 class="mt-1">Film</h5>
         <p>{{film_title}}

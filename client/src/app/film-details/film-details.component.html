@@ -5,9 +5,9 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
 
-<div class="container">
+<div class="modal-body">
 
-    <div class="row justify-content-start">
+    <div class="row justify-content-start mt-2">
         <div class="col">
             <p><b>Language: </b>{{language}}</p>
         </div>
@@ -50,37 +50,38 @@
             <p><b>Replacement cost:</b> {{replacement_cost}}</p>
         </div>
     </div>
-</div>
 
-<hr/>
-<ng-template [ngIf]="loggedIn && !filmRented">
-    <h5 class="mx-4">Rent this film!</h5>
-    <form class="row row-cols-2 mx-3 mb-3 g-3" [formGroup]="rentForm" (ngSubmit)="onFormSubmit()">
-        <div class="col-sm-6">
-            <label for="rentDate">Choose a rental date:</label>
-            <input formControlName="rentalDate" class="form-control" type="date" id="rentDate"/>
-        </div>
-        <div class="col-sm-6">
-            <label for="store">Select a store:</label>
-            <select formControlName="store" class="form-control" id="store">
-                <option *ngFor="let store of stores">{{store}}</option>
-            </select>
-        </div>
-        <div *ngIf="this.rentForm.get('rentalDate')!.errors && this.rentForm.get('rentalDate')!.touched" class="col-sm-12">
-            <span class="text-danger">The rental date must be between today and the next two days.</span>
-        </div>
-        <div class="col-sm-12">
-            <input type="submit" name="submit" class="w-100 btn btn-success" value="Rent"/>
-        </div>
-    </form>
-</ng-template>
-<ng-template [ngIf]="filmRented">
-    <p class="m-3 text-center text-success">Thank you for renting {{title}}!</p>
-</ng-template>
-<ng-template [ngIf]="!loggedIn">
-    <p class="m-3 text-center">Please <a routerLink="/login" (click)="activeModal.close('Redirect')">Log In</a> to rent
-        this film.</p>
-</ng-template>
+    <hr/>
+    <ng-template [ngIf]="loggedIn && !filmRented">
+        <h5 class="mx-4">Rent this film!</h5>
+        <form (ngSubmit)="onFormSubmit()" [formGroup]="rentForm" class="row row-cols-2 mx-3 mb-3 g-3">
+            <div class="col-sm-6">
+                <label for="rentDate">Choose a rental date:</label>
+                <input class="form-control" formControlName="rentalDate" id="rentDate" type="date"/>
+            </div>
+            <div class="col-sm-6">
+                <label for="store">Select a store:</label>
+                <select class="form-control" formControlName="store" id="store">
+                    <option *ngFor="let store of stores">{{store}}</option>
+                </select>
+            </div>
+            <div *ngIf="this.rentForm.get('rentalDate')!.errors && this.rentForm.get('rentalDate')!.touched" class="col-sm-12">
+                <span class="text-danger">The rental date must be between today and the next two days.</span>
+            </div>
+            <div class="col-sm-12">
+                <input class="w-100 btn btn-success" name="submit" type="submit" value="Rent"/>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template [ngIf]="filmRented">
+        <p class="m-3 text-center text-success">Thank you for renting {{title}}!</p>
+    </ng-template>
+    <ng-template [ngIf]="!loggedIn">
+        <p class="m-3 text-center">Please <a (click)="activeModal.close('Redirect')" routerLink="/login">Log In</a> to rent
+            this film.</p>
+    </ng-template>
+
+</div>
 
 <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
