@@ -14,10 +14,11 @@ import {DataTablesModule} from "angular-datatables";
 import {FilmDetailsComponent} from './film-details/film-details.component';
 import {RentalsComponent} from './rentals/rentals.component';
 import {RentalDetailsComponent} from './rental-details/rental-details.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
 	declarations: [
-		AppComponent, LoginComponent, DashboardComponent, NavbarComponent, FilmDetailsComponent, RentalsComponent, RentalDetailsComponent
+		AppComponent, LoginComponent, DashboardComponent, NavbarComponent, FilmDetailsComponent, RentalsComponent, RentalDetailsComponent, PageNotFoundComponent
 	],
 	imports: [
 		ReactiveFormsModule,

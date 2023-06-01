@@ -16,10 +16,10 @@
         </div>
 
         <h5>Rental Information</h5>
-        <p>Rental location: {{store.address}}, {{store.district}}, {{store.city}}, {{store.country}}</p>
-        <p>Rented on: {{rental_date.toDateString()}}</p>
-        <p *ngIf="rental_date">Returned on: {{return_date?.toDateString()}}</p>
-        <p *ngIf="cost">Payment amount: {{cost}}$</p>
+        <p><span class="h6">Rental location:</span> {{store.address}}, {{store.district}}, {{store.city}}, {{store.country}}</p>
+        <p><span class="h6">Rented on:</span> {{rental_date.toDateString()}}</p>
+        <p *ngIf="rental_date"><span class="h6">Returned on:</span> {{return_date?.toDateString()}}</p>
+        <p *ngIf="cost"><span class="h6">Payment amount:</span> {{cost}}$</p>
     </ng-template>
     <ng-template [ngIf]="!canViewRental">
         <ngb-alert [dismissible]="false" type="danger">

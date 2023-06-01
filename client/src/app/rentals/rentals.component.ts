@@ -57,10 +57,17 @@ export class RentalsComponent implements OnInit {
 			},
 			columns: [
 				{title: 'Title', data: 'film.title'},
-				{title: 'Store', data: 'store', orderable: false},
-				{title: 'Payment Amount', data: 'cost'},
-				{title: 'Rental Date', data: 'rental_date'},
-				{title: 'Return Date', data: 'return_date'},
+				{
+					title: 'Store',
+					data: 'store',
+					render:(data) =>{
+						return data.address + ", " + data.city;
+					},
+					orderable: false,
+					searchable: false},
+				{title: 'Payment Amount', data: 'cost', searchable: false},
+				{title: 'Rental Date', data: 'rental_date', searchable: false},
+				{title: 'Return Date', data: 'return_date', searchable: false},
 				{
 					title: 'View Details',
 					data: 'rental_id',

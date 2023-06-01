@@ -78,11 +78,12 @@ order by r.rental_date desc`
 
 const selectRentalById: String = `
 select r.rental_id, r.customer_id, f.film_id, i.store_id, 
-       (r.return_date::date - r.rental_date::date) * f.rental_rate as cost,
+       p.amount as cost,
        cast(r.rental_date as text), cast(r.return_date as text)
 from rental r
 join inventory i on i.inventory_id = r.inventory_id
 join film f on i.film_id = f.film_id
+left join payment p on p.rental_id = r.rental_id
 where r.rental_id = $1`
 
 const selectStoreById: String = `
