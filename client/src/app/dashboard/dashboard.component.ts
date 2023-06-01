@@ -3,6 +3,7 @@ import {Apollo, gql} from "apollo-angular";
 import {DataTableDirective} from "angular-datatables";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FilmDetailsComponent} from "../film-details/film-details.component";
+import {flatMap} from "rxjs";
 
 @Component({
 	selector: 'app-dashboard',
@@ -14,31 +15,31 @@ export class DashboardComponent implements OnInit {
 	@ViewChild(DataTableDirective) // @ts-ignore
 	private datatableElement: DataTableDirective;
 	private allFilmsQuery = gql`
-                        query Films {
-                            films {
-                                film_id
-                                title
-                                release_year
-                                rating
-                                categories
-                                language
-                                rental_rate
-                            }
-                        }
-                    `;
+		query Films {
+			films {
+				film_id
+				title
+				release_year
+				rating
+				categories
+				language
+				rental_rate
+			}
+		}
+	`;
 	private filmsWithCategoryQuery = gql`
-                            query FilmsWithCategory($category: String!) {
-                                filmsWithCategory(category: $category) {
-                                    film_id
-                                    title
-                                    release_year
-                                    rating
-                                    categories
-                                    language
-                                    rental_rate
-                                }
-                            }
-                        `
+		query FilmsWithCategory($category: String!) {
+			filmsWithCategory(category: $category) {
+				film_id
+				title
+				release_year
+				rating
+				categories
+				language
+				rental_rate
+			}
+		}
+	`
 	dtOptions: DataTables.Settings = {}
 	categories: String[] = [];
 	disableFiltering = true;
@@ -87,7 +88,9 @@ export class DashboardComponent implements OnInit {
 					data: 'film_id',
 					render: (data) => {
 						return `<button type="button" class="btn btn-outline-primary" data-film_id="${data}">RENT</button>`;
-					}
+					},
+					orderable: false,
+					searchable: false
 				},
 			],
 			responsive: true,

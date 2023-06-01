@@ -5,6 +5,7 @@
             <div ngbDropdown>
                 <button type="button" class="btn btn-light" ngbDropdownToggle>{{customerName}}</button>
                 <div ngbDropdownMenu>
+                    <button ngbDropdownItem routerLink="/dashboard"> Dashboard </button>
                     <button ngbDropdownItem routerLink="/rentals"> My Rentals </button>
                     <button ngbDropdownItem class="text-danger" (click)="logout()">Logout</button>
                 </div>

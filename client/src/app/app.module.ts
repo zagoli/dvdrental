@@ -12,10 +12,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import {DataTablesModule} from "angular-datatables";
 import { FilmDetailsComponent } from './film-details/film-details.component';
+import { RentalsComponent } from './rentals/rentals.component';
 
 @NgModule({
     declarations: [ // qua ci vanno i components (probabilmente lo fa in automatico)
-        AppComponent, LoginComponent, DashboardComponent, NavbarComponent, FilmDetailsComponent
+        AppComponent, LoginComponent, DashboardComponent, NavbarComponent, FilmDetailsComponent, RentalsComponent
     ],
 	imports: [
 		ReactiveFormsModule,

@@ -36,7 +36,7 @@ type Rental {
 	customer_id: Int!
 	film: Film!
 	store: Store!
-	cost: Float!
+	cost: Float
 	rental_date: String!
 	return_date: String!
 }
