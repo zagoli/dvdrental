@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Apollo, gql} from "apollo-angular";
 import {Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginComponent {
         return this.loginForm.get('password');
     }
 
-    constructor(private apollo: Apollo, private router: Router) {
+    constructor(private titleService:Title, private apollo: Apollo, private router: Router) {
+        this.titleService.setTitle("Login");
     }
 
     onFormSubmit(): void {
@@ -58,7 +60,7 @@ export class LoginComponent {
                 sessionStorage.setItem('first_name', userData.first_name);
                 sessionStorage.setItem('last_name', userData.last_name);
                 sessionStorage.setItem('customer_id', userData.customer_id);
-                this.router.navigate(['dashboard']);
+                this.router.navigate(['films']);
             }
         });
     }

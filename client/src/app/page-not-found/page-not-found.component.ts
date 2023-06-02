@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-page-not-found',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./page-not-found.component.scss']
 })
 export class PageNotFoundComponent {
+
+  constructor(private titleService:Title) {
+    this.titleService.setTitle("404 Page Not Found");
+  }
 
 }

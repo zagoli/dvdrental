@@ -23,7 +23,7 @@ export class NavbarComponent{
 	logout() {
 		sessionStorage.clear();
 		this.loggedIn = false;
-		this.router.navigate(['dashboard']);
+		this.router.navigate(['films']);
 	}
 
 

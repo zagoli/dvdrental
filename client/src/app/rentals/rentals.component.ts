@@ -4,6 +4,7 @@ import {Apollo, gql} from "apollo-angular";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";
 import {RentalDetailsComponent} from "../rental-details/rental-details.component";
+import {Title} from "@angular/platform-browser";
 
 @Component({
 	selector: 'app-rentals',
@@ -33,13 +34,14 @@ export class RentalsComponent implements OnInit {
 	@ViewChild(DataTableDirective) // @ts-ignore
 	private datatableElement: DataTableDirective;
 
-	constructor(private router: Router, private apollo: Apollo, private modalService: NgbModal) {
+	constructor(private titleService:Title, private router: Router, private apollo: Apollo, private modalService: NgbModal) {
+		this.titleService.setTitle("My Rentals");
 	}
 
 	ngOnInit() {
 
 		if (sessionStorage.getItem('customer_id') == null) {
-			this.router.navigate(['dashboard']);
+			this.router.navigate(['films']);
 		}
 
 		this.dtOptions = {
