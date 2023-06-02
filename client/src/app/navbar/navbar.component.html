@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <span class="navbar-brand">Dvd Rental</span>
         <ng-template [ngIf]="loggedIn" [ngIfElse]="doLogin">
-            <div ngbDropdown>
+            <div ngbDropdown role="navigation">
                 <button type="button" class="btn btn-light" ngbDropdownToggle>{{customerName}}</button>
                 <div ngbDropdownMenu>
                     <button ngbDropdownItem routerLink="/dashboard"> Dashboard </button>

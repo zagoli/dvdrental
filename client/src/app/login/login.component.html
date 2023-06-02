@@ -3,7 +3,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
                 <div class="card">
-                    <form class="p-4" [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+                    <form (ngSubmit)="onFormSubmit()" [formGroup]="loginForm" class="p-4" role="form">
                         <h3>Login</h3>
                         <ngb-alert *ngIf="auth_error" [dismissible]="false" type="danger">Invalid email or
                             password!
