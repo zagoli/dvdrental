@@ -2,7 +2,7 @@
     <h4 class="modal-title">{{title}}
         <ng-template [ngIf]="release_year">- {{release_year}}</ng-template>
     </h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+    <button (click)="activeModal.dismiss('Cross click')" aria-label="Close" class="btn-close" role="link" type="button"></button>
 </div>
 
 <div class="modal-body" role="main">
@@ -88,5 +88,5 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+    <button (click)="activeModal.close('Close click')" class="btn btn-outline-dark" role="link" type="button">Close</button>
 </div>

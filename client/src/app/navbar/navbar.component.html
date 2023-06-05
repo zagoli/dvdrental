@@ -3,7 +3,8 @@
         <span class="navbar-brand">Dvd Rental</span>
         <ng-template [ngIf]="loggedIn" [ngIfElse]="doLogin">
             <div ngbDropdown role="navigation">
-                <button type="button" class="btn btn-light" ngbDropdownToggle>{{customerName}}</button>
+                <button aria-label="navigation menu" class="btn btn-light" ngbDropdownToggle
+                    type="button">{{customerName}}</button>
                 <div ngbDropdownMenu>
                     <button ngbDropdownItem routerLink="/films"> All Films </button>
                     <button ngbDropdownItem routerLink="/rentals"> My Rentals </button>

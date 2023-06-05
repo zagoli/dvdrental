@@ -74,7 +74,7 @@ export class RentalsComponent implements OnInit {
 					title: 'View Details',
 					data: 'rental_id',
 					render: (data) => {
-						return `<button type="button" class="btn btn-outline-primary" data-rental_id="${data}">View Details</button>`;
+						return `<button type="button" class="btn btn-outline-primary" data-rental_id="${data}" aria-label="View rental details" role="link">View Details</button>`;
 					},
 					orderable: false,
 					searchable: false
