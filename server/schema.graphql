@@ -38,7 +38,7 @@ type Rental {
 	store: Store!
 	cost: Float
 	rental_date: String!
-	return_date: String!
+	return_date: String
 }
 
 type Customer {
