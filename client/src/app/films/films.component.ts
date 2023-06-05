@@ -76,7 +76,7 @@ export class FilmsComponent implements OnInit {
           title: 'Title',
           data: 'title',
           render: (data, type, row) => {
-            return `<a href="#" data-film_id="${row.film_id}">${data}</a>`
+            return `<a href="#" class="text-primary" data-film_id="${row.film_id}">${data}</a>`
           }
         },
         {title: 'Year', data: 'release_year', searchable: false},
