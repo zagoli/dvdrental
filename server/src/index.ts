@@ -22,7 +22,9 @@ await apolloServer.start();
 
 app.use(
     '/graphql',
-    cors<cors.CorsRequest>(),
+    cors<cors.CorsRequest>({
+        origin: 'http://localhost:4200',
+    }),
     express.json(),
     expressMiddleware(apolloServer,
         {
