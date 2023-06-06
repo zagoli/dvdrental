@@ -2,18 +2,18 @@
     <div class="container-fluid">
         <span class="navbar-brand">Dvd Rental</span>
         <ng-template [ngIf]="loggedIn" [ngIfElse]="doLogin">
-            <div ngbDropdown role="navigation">
+            <div ngbDropdown role="tab">
                 <button aria-label="navigation menu" class="btn btn-light" ngbDropdownToggle
                     type="button">{{customerName}}</button>
-                <div ngbDropdownMenu>
-                    <button ngbDropdownItem routerLink="/films"> All Films </button>
-                    <button ngbDropdownItem routerLink="/rentals"> My Rentals </button>
-                    <button ngbDropdownItem class="text-danger" (click)="logout()">Logout</button>
+                <div ngbDropdownMenu role="navigation">
+                    <button ngbDropdownItem routerLink="/films" type="button"> All Films </button>
+                    <button ngbDropdownItem routerLink="/rentals" type="button"> My Rentals </button>
+                    <button (click)="logout()" class="text-danger" ngbDropdownItem type="button">Logout</button>
                 </div>
             </div>
         </ng-template>
         <ng-template #doLogin>
-            <button class="btn btn-primary" routerLink="/login">Login</button>
+            <button class="btn btn-primary" role="tab" routerLink="/login">Login</button>
         </ng-template>
     </div>
 </nav>
