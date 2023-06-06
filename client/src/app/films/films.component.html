@@ -7,8 +7,7 @@
                 <label for="categoriesSelector">Filter films by category</label>
             </div>
             <div class="col">
-                <select (change)="filterTable($event)" class="form-select" id="categoriesSelector"
-                        [disabled]="disableFiltering">
+                <select (change)="filterTable($event)" class="form-select" id="categoriesSelector">
                     <option selected>All Categories</option>
                     <option *ngFor="let category of categories">{{category}}</option>
                 </select>
