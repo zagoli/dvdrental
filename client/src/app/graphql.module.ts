@@ -16,13 +16,13 @@ export function createApollo(httpLink: HttpLink) {
 	}));
 
 	const auth = setContext(() => {
-		const token = sessionStorage.getItem('customer_id');
+		const token = sessionStorage.getItem('token');
 		if (token === null) {
 			return {};
 		} else {
 			return {
 				headers: {
-					customer_id: token,
+					Authorization: token,
 				},
 			};
 		}
