@@ -1,5 +1,6 @@
 import pg from 'pg';
 import {Context} from "./index";
+import bcrypt from 'bcrypt';
 
 const {Pool} = pg;
 
@@ -161,7 +162,7 @@ export async function rentalById(rental_id: number, context: Context): Promise<a
 
 export async function customer(email: String, password: String): Promise<any> {
     const user = (await usersPool.query(selectUser, [email])).rows[0];
-    if (user && user.password === password) {
+    if (user && await bcrypt.compare(password, user.password)) {
         const result = await dvdPool.query(selectCustomer, [user.customer_id]);
         return result.rows[0];
     } else {
