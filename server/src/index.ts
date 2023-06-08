@@ -4,12 +4,16 @@ import {ApolloServerPluginDrainHttpServer} from '@apollo/server/plugin/drainHttp
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
+import jwt from 'jsonwebtoken';
 import {schema} from './schema.js';
 import {resolvers} from './resolvers.js'
+import {readFileSync} from 'fs'
 
 export interface Context {
     customer_id?: number;
 }
+
+export const jwt_secret = readFileSync("./jwt_secret").toString();
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -28,7 +32,17 @@ app.use(
     express.json(),
     expressMiddleware(apolloServer,
         {
-            context: async ({req}) => ({customer_id: req.headers.customer_id})
+            context: async ({req}) => {
+                const token = req.headers.authorization;
+                let customer_id: number | null = null;
+                try {
+                    const verified_token = jwt.verify(token, jwt_secret);
+                    customer_id = verified_token.customer_id;
+                } catch (e) {}
+                return {
+                    customer_id: customer_id
+                }
+            }
         }),
 );
 

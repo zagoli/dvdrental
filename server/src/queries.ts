@@ -1,23 +1,24 @@
 import pg from 'pg';
-import {Context} from "./index";
+import {Context, jwt_secret} from "./index.js";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken'
 
 const {Pool} = pg;
 
 const dvdPool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'dvdrental',
-    password: 'postgres',
-    port: 5432,
+	user: 'postgres',
+	host: 'localhost',
+	database: 'dvdrental',
+	password: 'postgres',
+	port: 5432,
 });
 
 const usersPool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'dvdrental_users',
-    password: 'postgres',
-    port: 5432,
+	user: 'postgres',
+	host: 'localhost',
+	database: 'dvdrental_users',
+	password: 'postgres',
+	port: 5432,
 });
 
 const selectAllFilms: String = `
@@ -106,76 +107,83 @@ select name from category`
 
 
 export async function allFilms(): Promise<[any]> {
-    const result = await dvdPool.query(selectAllFilms);
-    return result.rows;
+	const result = await dvdPool.query(selectAllFilms);
+	return result.rows;
 }
 
-export async function allFilmsWithCategory(category: any): Promise<[any]>  {
-    const result = await dvdPool.query(selectAllFilmsWithCategory, [category]);
-    return result.rows;
+export async function allFilmsWithCategory(category: any): Promise<[any]> {
+	const result = await dvdPool.query(selectAllFilmsWithCategory, [category]);
+	return result.rows;
 }
 
 export async function filmById(film_id: number): Promise<any> {
-    const result = await dvdPool.query(selectFilm, [film_id]);
-    return result.rows[0];
+	const result = await dvdPool.query(selectFilm, [film_id]);
+	return result.rows[0];
 }
 
 export async function storeById(store_id: number): Promise<any> {
-    const result = await dvdPool.query(selectStoreById, [store_id]);
-    return result.rows[0];
+	const result = await dvdPool.query(selectStoreById, [store_id]);
+	return result.rows[0];
 }
 
 export async function categoriesOfFilm(film_id: number): Promise<[String]> {
-    const result = await dvdPool.query(selectCategoriesOfFilm, [film_id]);
-    return result.rows.map(i => i.name);
+	const result = await dvdPool.query(selectCategoriesOfFilm, [film_id]);
+	return result.rows.map(i => i.name);
 }
 
 export async function actorsOfFilm(film_id: number): Promise<[String]> {
-    const result = await dvdPool.query(selectActorsOfFilm, [film_id]);
-    return result.rows.map(i => i.name);
+	const result = await dvdPool.query(selectActorsOfFilm, [film_id]);
+	return result.rows.map(i => i.name);
 }
 
 export async function storeFilmAvailable(film_id: number): Promise<[any]> {
-    const result = await dvdPool.query(selectStoresWhereFilmAvailable, [film_id]);
-    return result.rows;
+	const result = await dvdPool.query(selectStoresWhereFilmAvailable, [film_id]);
+	return result.rows;
 }
 
 export async function allRentalsOfCustomer(customer_id: number, context: Context): Promise<[any]> {
-    if (context.customer_id && context.customer_id == customer_id) {
-        const result = await dvdPool.query(selectAllRentalsOfCustomer, [customer_id]);
-        return result.rows;
-    } else {
-        return null;
-    }
+	if (context.customer_id && context.customer_id == customer_id) {
+		const result = await dvdPool.query(selectAllRentalsOfCustomer, [customer_id]);
+		return result.rows;
+	} else {
+		return null;
+	}
 }
 
 export async function rentalById(rental_id: number, context: Context): Promise<any> {
-    const result = await dvdPool.query(selectRentalById, [rental_id]);
-    const rental = result.rows[0];
-    if (rental && context.customer_id && rental.customer_id == context.customer_id) {
-        return rental;
-    } else {
-        return null;
-    }
+	const result = await dvdPool.query(selectRentalById, [rental_id]);
+	const rental = result.rows[0];
+	if (rental && context.customer_id && rental.customer_id == context.customer_id) {
+		return rental;
+	} else {
+		return null;
+	}
 
 }
 
-export async function customer(email: String, password: String): Promise<any> {
-    const user = (await usersPool.query(selectUser, [email])).rows[0];
-    if (user && await bcrypt.compare(password, user.password)) {
-        const result = await dvdPool.query(selectCustomer, [user.customer_id]);
-        return result.rows[0];
-    } else {
-        return null;
-    }
+export async function login(email: String, password: String): Promise<any> {
+	const user = (await usersPool.query(selectUser, [email])).rows[0];
+	if (user && await bcrypt.compare(password, user.password)) {
+		const result = (await dvdPool.query(selectCustomer, [user.customer_id])).rows[0];
+		return jwt.sign(
+			{
+				customer_id: result.customer_id,
+				first_name: result.first_name,
+				last_name: result.last_name
+			},
+			jwt_secret);
+	} else {
+		return null;
+	}
 }
 
 export async function categories(): Promise<any> {
-    const categories = await dvdPool.query(selectAllCategories);
-    const result: String[] = [];
-    categories.rows.forEach( (c) => {
-        result.push(c.name)}
-    );
-    return result;
+	const categories = await dvdPool.query(selectAllCategories);
+	const result: String[] = [];
+	categories.rows.forEach((c) => {
+			result.push(c.name)
+		}
+	);
+	return result;
 
 }

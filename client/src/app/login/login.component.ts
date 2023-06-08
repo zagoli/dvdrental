@@ -52,14 +52,15 @@ export class LoginComponent {
             },
         })
         .subscribe((result: any) => {
-            const userData = result.data.login;
-            if(!userData){
+            const token = result.data.login;
+            if(!token){
                 this.loginForm.reset();
                 this.auth_error = true;
             } else {
-                sessionStorage.setItem('first_name', userData.first_name);
-                sessionStorage.setItem('last_name', userData.last_name);
-                sessionStorage.setItem('customer_id', userData.customer_id);
+                // TODO token
+                sessionStorage.setItem('first_name', token.first_name);
+                sessionStorage.setItem('last_name', token.last_name);
+                sessionStorage.setItem('customer_id', token.customer_id);
                 this.router.navigate(['films']);
             }
         });
